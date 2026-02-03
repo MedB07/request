@@ -1,0 +1,317 @@
+```html
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Valentine Request 🌹</title>
+
+  <style>
+    :root{
+      --bg1:#ff9a9e;
+      --bg2:#fad0c4;
+      --card:rgba(255,255,255,.18);
+      --border:rgba(255,255,255,.28);
+      --text:#ffffff;
+      --accent:#ff4d6d;
+      --shadow:rgba(0,0,0,.18);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      overflow:hidden;
+      color:var(--text);
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      background:
+        radial-gradient(1200px 600px at 20% 20%, #ffd1dc 0%, transparent 55%),
+        radial-gradient(900px 500px at 80% 20%, #ffe3e8 0%, transparent 55%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+    }
+    .bokeh{
+      position:absolute; inset:-20vmax;
+      filter: blur(40px);
+      opacity:.45;
+      background:
+        radial-gradient(circle at 20% 30%, #fff 0 8%, transparent 18%),
+        radial-gradient(circle at 70% 20%, #fff 0 7%, transparent 16%),
+        radial-gradient(circle at 60% 70%, #fff 0 6%, transparent 14%),
+        radial-gradient(circle at 30% 75%, #fff 0 9%, transparent 19%);
+      mix-blend-mode: overlay;
+      pointer-events:none;
+    }
+
+    /* floating roses */
+    .roses{ position:absolute; inset:0; pointer-events:none; opacity:.85; }
+    .rose{
+      position:absolute;
+      filter: drop-shadow(0 10px 12px rgba(0,0,0,.12));
+      animation: floatUp linear infinite;
+      will-change: transform, opacity;
+    }
+    @keyframes floatUp{
+      0%   { transform: translateY(110vh) rotate(0deg) scale(.9); opacity:0; }
+      10%  { opacity: .95; }
+      100% { transform: translateY(-25vh) rotate(360deg) scale(1.15); opacity:0; }
+    }
+
+    .card{
+      position:relative;
+      width:min(620px, 92vw);
+      padding: 32px 26px 24px;
+      border-radius: 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: 0 18px 45px var(--shadow);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      text-align:center;
+    }
+    .badge{
+      display:inline-flex;
+      gap:.45rem;
+      align-items:center;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.22);
+      border: 1px solid rgba(255,255,255,.25);
+      font-weight:600;
+      letter-spacing:.2px;
+      margin-bottom: 12px;
+    }
+    h1{
+      margin: 10px 0 10px;
+      font-size: clamp(28px, 4vw, 44px);
+      line-height:1.05;
+      text-shadow: 0 8px 25px rgba(0,0,0,.18);
+    }
+    p{
+      margin: 0 auto 14px;
+      max-width: 52ch;
+      font-size: clamp(15px, 2.1vw, 18px);
+      opacity:.95;
+    }
+    .question{
+      font-weight: 800;
+      margin-top: 10px;
+      font-size: clamp(16px, 2.2vw, 19px);
+      text-shadow: 0 10px 22px rgba(0,0,0,.14);
+    }
+    .buttons{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top: 12px;
+    }
+    button{
+      border:none;
+      cursor:pointer;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-size: 16px;
+      font-weight: 800;
+      transition: transform .15s ease, filter .15s ease;
+      box-shadow: 0 12px 25px rgba(0,0,0,.15);
+    }
+    button:hover{ transform: translateY(-1px) scale(1.02); }
+    button:active{ transform: translateY(0) scale(.98); }
+    .yes{ background: var(--accent); color: #fff; }
+    .no{ background: rgba(255,255,255,.92); color: #ff4d6d; }
+
+    .answer{
+      margin-top: 16px;
+      padding: 14px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.16);
+      border: 1px dashed rgba(255,255,255,.35);
+      min-height: 62px;
+      display:grid;
+      place-items:center;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .proof{
+      margin-top: 10px;
+      font-size: 12.5px;
+      opacity: .92;
+    }
+    .proof code{
+      background: rgba(255,255,255,.18);
+      padding: 3px 7px;
+      border-radius: 10px;
+      border: 1px solid rgba(255,255,255,.22);
+    }
+    .copy{
+      cursor:pointer;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+      font-weight: 700;
+    }
+
+    /* rose burst */
+    .burst{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      overflow:hidden;
+      border-radius: 24px;
+    }
+    .petal{
+      position:absolute;
+      font-size: 22px;
+      opacity:0;
+      animation: pop 900ms ease-out forwards;
+    }
+    @keyframes pop{
+      0%   { transform: translate(var(--x), var(--y)) scale(.4) rotate(0deg); opacity:0; }
+      15%  { opacity:1; }
+      100% { transform: translate(calc(var(--x) * 1.25), calc(var(--y) * 1.25)) scale(1.1) rotate(320deg); opacity:0; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bokeh"></div>
+  <div class="roses" id="roses"></div>
+
+  <main class="card" role="main" aria-label="Valentine page">
+    <div class="burst" id="burst"></div>
+
+    <div class="badge">🌹 little surprise</div>
+
+    <h1>Valentine Request 🌹</h1>
+
+    <p>
+      <strong>Lalla Aya,</strong><br><br>
+      On <strong>February 14th, 2026</strong>, I want you to keep your day completely free.<br>
+      I’m taking you for the whole day… and the whole night.<br><br>
+      All you need to bring is yourself — of course your dress,<br>
+      and that beautiful smile of yours.
+    </p>
+
+    <div class="question">Will you be my Valentine?</div>
+
+    <div class="buttons">
+      <button class="yes" id="yesBtn">Yes 💕</button>
+      <button class="no" id="noBtn">No 🙈</button>
+    </div>
+
+    <div class="answer" id="answer">
+      Click a button… your answer will appear here 🌹
+    </div>
+
+    <div class="proof">
+      Proof link: <code id="proofLink">(will appear after click)</code>
+      &nbsp;—&nbsp;<span class="copy" id="copyBtn">copy</span>
+      <div style="margin-top:6px; opacity:.9">
+        (Tip: take a screenshot after clicking, or send me the proof link.)
+      </div>
+    </div>
+  </main>
+
+  <script>
+    /************ 1) FLOATING ROSES ************/
+    const roses = document.getElementById("roses");
+    const ROSE_EMOJIS = ["🌹","🌹","🌹","🥀","🌸"];
+    const ROSE_COUNT = 20;
+    const rand = (min, max) => Math.random() * (max - min) + min;
+
+    for(let i=0;i<ROSE_COUNT;i++){
+      const r = document.createElement("div");
+      r.className = "rose";
+      r.textContent = ROSE_EMOJIS[Math.floor(Math.random()*ROSE_EMOJIS.length)];
+      r.style.left = rand(0, 100) + "vw";
+      r.style.animationDuration = rand(6, 14) + "s";
+      r.style.animationDelay = rand(0, 8) + "s";
+      r.style.fontSize = rand(22, 44) + "px";
+      roses.appendChild(r);
+    }
+
+    /************ 2) ROSE BURST ************/
+    const burstEl  = document.getElementById("burst");
+    function roseBurst(isNo=false){
+      burstEl.innerHTML = "";
+      const petals = isNo ? ["🥀","🌹","🌸"] : ["🌹","🌹","🌸","✨"];
+      const n = 22;
+      for(let i=0;i<n;i++){
+        const p = document.createElement("div");
+        p.className = "petal";
+        p.textContent = petals[Math.floor(Math.random()*petals.length)];
+        const x = (Math.random() - 0.5) * 260;
+        const y = (Math.random() - 0.5) * 180;
+        p.style.setProperty("--x", x + "px");
+        p.style.setProperty("--y", y + "px");
+        p.style.left = "50%";
+        p.style.top  = "45%";
+        p.style.animationDelay = (Math.random()*120) + "ms";
+        burstEl.appendChild(p);
+      }
+    }
+
+    /************ 3) MESSAGES ************/
+    const YES_MESSAGE = "Get ready, baby… I love you ❤️🌹";
+    const NO_MESSAGE  = "Okay 🙈🌹 I’ll still keep the roses… and I’ll keep loving you.";
+
+    const answerEl = document.getElementById("answer");
+    const proofEl  = document.getElementById("proofLink");
+
+    /************ 4) OPTION #3: SAVE ANSWER IN THE URL ************
+      - When she clicks YES/NO, we set ?answer=yes or ?answer=no
+      - The page reloads with that parameter.
+      - We display the answer + show the proof link she can send you or screenshot.
+    *************************************************************/
+
+    function setAnswerParam(value){
+      const url = new URL(window.location.href);
+      url.searchParams.set("answer", value);
+      // optional: add a tiny timestamp to make screenshots "fresh"
+      url.searchParams.set("t", Date.now().toString());
+      window.location.href = url.toString();
+    }
+
+    function renderFromURL(){
+      const url = new URL(window.location.href);
+      const ans = url.searchParams.get("answer");
+
+      // Show proof link always
+      proofEl.textContent = url.toString();
+
+      if(ans === "yes"){
+        answerEl.textContent = YES_MESSAGE;
+        roseBurst(false);
+      }else if(ans === "no"){
+        answerEl.textContent = NO_MESSAGE;
+        roseBurst(true);
+      }else{
+        answerEl.textContent = "Click a button… your answer will appear here 🌹";
+        proofEl.textContent = "(will appear after click)";
+      }
+    }
+
+    // Buttons
+    document.getElementById("yesBtn").addEventListener("click", () => setAnswerParam("yes"));
+    document.getElementById("noBtn").addEventListener("click", () => setAnswerParam("no"));
+
+    // Copy proof link
+    document.getElementById("copyBtn").addEventListener("click", async () => {
+      const text = proofEl.textContent;
+      if(!text || text.includes("(will appear")) return;
+      try{
+        await navigator.clipboard.writeText(text);
+        answerEl.textContent = "Proof link copied 🌹💌 Send it to me (or screenshot).";
+      }catch(e){
+        answerEl.textContent = "I couldn't auto-copy 🙈 Just copy the URL from the browser bar 🌹";
+      }
+    });
+
+    // On load, render based on URL
+    renderFromURL();
+  </script>
+</body>
+</html>
+```
